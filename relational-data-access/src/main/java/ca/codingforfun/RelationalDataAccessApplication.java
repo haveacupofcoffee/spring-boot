@@ -7,8 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,12 +51,11 @@ public class RelationalDataAccessApplication implements CommandLineRunner {
 
         log.info("Querying for customer records where first_name = 'Josh':");
 
+
         jdbcTemplate.query("SELECT id, first_name, last_name FROM customers WHERE first_name = ?",
                 new Object[]{"Josh"}, (rs, rowNum) -> new Customer(rs.getLong("id"), rs.getString("first_name"),
                 rs.getString("last_name"))).forEach(customer -> log.info(customer.toString()));
 
-
-
-
     }
+
 }
