@@ -40,7 +40,7 @@ it's parent:
 - application.properties
 - application.yml
 
-Function: -- 
+Function: 
 
 **Change the default configuration values.Configuration file names can't be changed if using auto configure**
 
@@ -88,7 +88,50 @@ Output:
 Hello\nWorld
 ```
 
+#### 3.3.2.2 Object、 Map
 
+Example:
+```yaml
+person: 
+  firstName: hello
+  lastName: world
+  age: 20
+```
+inline:
+```yaml
+person: {firstName: hello,lastname: world,age: 20}
+```
 
+#### 3.3.2.3 List、 Set
+
+Example:
+```yaml
+pets:
+  - cat
+  - dog
+  - bird
+```
+inline:
+```yaml
+pets: [cat,dog,pig]
+```
+## 3.4 Configuration File Injection
+
+application.yml
+```yaml
+person:
+  firstName: hello
+  lastName: world
+  age: 20
+  boss: false
+  birth: 2020/08/11
+  maps: {k1: v1,k2: v2}
+  lists:
+    ‐ react
+    ‐ springboot
+  pet:
+    name: snowball
+    age: 2
+```
 
 
