@@ -30,9 +30,7 @@ it's parent:
 </parent>
 ```
 
-```
-This is the pom file  providing dependency and plugin management for applications built with Maven
-```
+**This is the pom file  providing dependency and plugin management for applications built with Maven**
 
 # 2. HelloWorld
 [comment]: # (add source file)
@@ -42,10 +40,9 @@ This is the pom file  providing dependency and plugin management for application
 - application.properties
 - application.yml
 
-Function:
-```
-Change the default configuration values.Configuration file names can't be changed if using auto configure
-```
+Function: -- 
+
+**Change the default configuration values.Configuration file names can't be changed if using auto configure**
 
 ## 3.2 configuration File format
 
@@ -59,15 +56,15 @@ server:
   port: 8080
   path: /hello
 ```
-Note:
-```
+**Note:**
 - Must have space after :
 - Uses indentation to inicate a block of object or level
 - Case sensitive
-```
+
 ### 3.3.2 How to write
 
 #### 3.3.2.1 Primary Type
+
 ```
 Key: Value
 ```
