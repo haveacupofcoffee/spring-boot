@@ -147,6 +147,6 @@ person:
 | JSR303  | Yes  | No  |
 
 ## 3.5 @PropertySource & @ImportResource
-@PropertySource: include properties into the Environment 
-@ImportResource: Indicates one or more resources containing bean definitions to import.
+@PropertySource: include properties into the Environment  
+@ImportResource: Indicates one or more resources containing bean definitions to import  
 [02-spring-boot-config02](https://github.com/haveacupofcoffee/spring-boot/tree/master/02-spring-boot-config02)
