@@ -34,6 +34,7 @@ it's parent:
 
 # 2. HelloWorld
 [comment]: # (add source file)
+[01-hello-world](https://github.com/haveacupofcoffee/spring-boot/tree/master/01-hello-world)
 
 # 3. Configuration File
 ## 3.1 Global Configuration File
@@ -42,7 +43,7 @@ it's parent:
 
 Function: 
 
-**Change the default configuration values.Global configuration file, =**
+**Change the default configuration values.Global configuration file**
 
 ## 3.2 configuration File format
 
@@ -116,6 +117,7 @@ inline:
 pets: [cat,dog,pig]
 ```
 ## 3.4 Configuration File Injection
+[02-spring-boot-config](https://github.com/haveacupofcoffee/spring-boot/tree/master/02-spring-boot-config)
 
 application.yml
 ```yaml
@@ -135,6 +137,7 @@ person:
 ```
 
 ### 3.4.1 @ConfigurationProperties vs @Value
+[02-spring-boot-config](https://github.com/haveacupofcoffee/spring-boot/tree/master/02-spring-boot-config)
 |   | @ConfigurationProperties  | @Value  |
 |---|---|---|
 | Batch Import| Yes  | No  |
@@ -142,3 +145,8 @@ person:
 | Meta-data support  | Yes  | No  |
 | SpEL  | No  | Yes  |
 | JSR303  | Yes  | No  |
+
+## 3.5 @PropertySource & @ImportResource
+@PropertySource: include properties into the Environment 
+@ImportResource: Indicates one or more resources containing bean definitions to import.
+[02-spring-boot-config02](https://github.com/haveacupofcoffee/spring-boot/tree/master/02-spring-boot-config02)
