@@ -134,4 +134,11 @@ person:
     age: 2
 ```
 
-
+### 3.4.1 @ConfigurationProperties vs @Value
+|   | @ConfigurationProperties  | @Value  |
+|---|---|---|
+| Batch Import| Yes  | No  |
+| Relaxed binding  | Yes  | No  |
+| Meta-data support  | Yes  | No  |
+| SpEL  | No  | Yes  |
+| JSR303  | Yes  | No  |
