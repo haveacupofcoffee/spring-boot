@@ -42,7 +42,7 @@ it's parent:
 
 Function: 
 
-**Change the default configuration values.Configuration file names can't be changed if using auto configure**
+**Change the default configuration values.Global configuration file, =**
 
 ## 3.2 configuration File format
 
