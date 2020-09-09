@@ -12,6 +12,8 @@
 		<module>01-hello-world</module>
 		<module>02-spring-boot-config</module>
 		<module>02-spring-boot-config02</module>
+		<module>02-spring-boot-config03</module>
+		<module>02-spring-boot-config04-profiles</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
