@@ -191,10 +191,10 @@ spring:
 change configuration file location with : --spring.config.location
 
 # 4.Behind the scene of AutoConfig
-[common-application-properties]https://docs.spring.io/spring-boot/docs/2.3.3.RELEASE/reference/htmlsingle/#common-application-properties
+[common-application-properties](https://docs.spring.io/spring-boot/docs/2.3.3.RELEASE/reference/htmlsingle/#common-application-properties)
 
-**1.@SpringBootApplication enabled @EnableAutoConfiguration**
-**2.@EnableAutoConfiguration uses @Import({AutoConfigurationImportSelector.class}) to import configuration components(classes)**
+**1.@SpringBootApplication enabled @EnableAutoConfiguration**  
+**2.@EnableAutoConfiguration uses @Import({AutoConfigurationImportSelector.class}) to import configuration components(classes)**  
 **3.In AutoConfigurationImportSelector class has a method selectImports()**
 ```java
  public String[] selectImports(AnnotationMetadata annotationMetadata) {
@@ -302,3 +302,201 @@ Use debug=true to print
 = ========================  
 AUTO‐CONFIGURATION REPORT  
 = ========================    
+
+
+#5. Log
+##5.1 Spring Boot Log
+[03-spring-boot-logging](https://github.com/haveacupofcoffee/spring-boot/tree/master/03-spring-boot-logging)
+Spring Boot Log : SLF4J + logback
+In:
+```xml
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>2.2.9.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+```
+dependents on 
+```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-logging</artifactId>
+      <version>2.2.9.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+```
+Which is using: 
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-to-slf4j</artifactId>
+      <version>2.12.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>1.7.30</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+```
+Change to other log library
+[Bridging legacy APIs](http://www.slf4j.org/legacy.html)
+
+#6. Web Development
+
+##6.1 Static resources mapping rules
+AutoConfigure class : 
+```java
+@Configuration(
+    proxyBeanMethods = false
+)
+@ConditionalOnWebApplication(
+    type = Type.SERVLET
+)
+@ConditionalOnClass({Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class})
+@ConditionalOnMissingBean({WebMvcConfigurationSupport.class})
+@AutoConfigureOrder(-2147483638)
+@AutoConfigureAfter({DispatcherServletAutoConfiguration.class, TaskExecutionAutoConfiguration.class, ValidationAutoConfiguration.class})
+public class WebMvcAutoConfiguration {
+    public static final String DEFAULT_PREFIX = "";
+    public static final String DEFAULT_SUFFIX = "";
+    private static final String[] SERVLET_LOCATIONS = new String[]{"/"};
+
+    public WebMvcAutoConfiguration() {
+    }
+
+```
+###6.1.1 Webjars
+WebJars are client-side web libraries (e.g. jQuery & Bootstrap) packaged into JAR (Java Archive) files.  
+**Webjars: classpath:/META-INF/resources/webjars/**  
+https://www.webjars.org/
+
+WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter, /webjars/**
+```java
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            if (!this.resourceProperties.isAddMappings()) {
+                logger.debug("Default resource handling disabled");
+            } else {
+                Duration cachePeriod = this.resourceProperties.getCache().getPeriod();
+                CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();
+                if (!registry.hasMappingForPattern("/webjars/**")) {
+                    this.customizeResourceHandlerRegistration(registry.addResourceHandler(new String[]{"/webjars/**"}).addResourceLocations(new String[]{"classpath:/META-INF/resources/webjars/"}).setCachePeriod(this.getSeconds(cachePeriod)).setCacheControl(cacheControl));
+                }
+
+                String staticPathPattern = this.mvcProperties.getStaticPathPattern();
+                if (!registry.hasMappingForPattern(staticPathPattern)) {
+                    this.customizeResourceHandlerRegistration(registry.addResourceHandler(new String[]{staticPathPattern}).addResourceLocations(WebMvcAutoConfiguration.getResourceLocations(this.resourceProperties.getStaticLocations())).setCachePeriod(this.getSeconds(cachePeriod)).setCacheControl(cacheControl));
+                }
+
+            }
+        }
+```
+
+```xml
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.5.1</version>
+</dependency>
+```
+access: localhost:8080/webjars/jquery/3.5.1/jquery.js
+###6.1.2 static resources
+
+/** : classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/
+
+
+WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter, staticPathPattern
+```java
+        public void addResourceHandlers(ResourceHandlerRegistry registry) {
+            if (!this.resourceProperties.isAddMappings()) {
+                logger.debug("Default resource handling disabled");
+            } else {
+                Duration cachePeriod = this.resourceProperties.getCache().getPeriod();
+                CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();
+                if (!registry.hasMappingForPattern("/webjars/**")) {
+                    this.customizeResourceHandlerRegistration(registry.addResourceHandler(new String[]{"/webjars/**"}).addResourceLocations(new String[]{"classpath:/META-INF/resources/webjars/"}).setCachePeriod(this.getSeconds(cachePeriod)).setCacheControl(cacheControl));
+                }
+
+                String staticPathPattern = this.mvcProperties.getStaticPathPattern();
+                if (!registry.hasMappingForPattern(staticPathPattern)) {
+                    this.customizeResourceHandlerRegistration(registry.addResourceHandler(new String[]{staticPathPattern}).addResourceLocations(WebMvcAutoConfiguration.getResourceLocations(this.resourceProperties.getStaticLocations())).setCachePeriod(this.getSeconds(cachePeriod)).setCacheControl(cacheControl));
+                }
+
+            }
+        }
+```
+staticPathPattern is "/**", get by this.mvcProperties.getStaticPathPattern()  
+this.resourceProperties.getStaticLocations(), which is CLASSPATH_RESOURCE_LOCATIONS
+```java
+public class ResourceProperties {
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = new String[]{"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"};
+    private String[] staticLocations;
+    private boolean addMappings;
+    private final ResourceProperties.Chain chain;
+    private final ResourceProperties.Cache cache;
+
+    public ResourceProperties() {
+        this.staticLocations = CLASSPATH_RESOURCE_LOCATIONS;
+```
+
+###6.1.3 Welcome Page
+Mapping by /**
+access: localhost:8080/  look for index.html
+WebMvcAutoConfiguration.EnableWebMvcConfiguration, used this.resourceProperties.getStaticLocations(), which is CLASSPATH_RESOURCE_LOCATIONS
+```java
+        @Bean
+        public WelcomePageHandlerMapping welcomePageHandlerMapping(ApplicationContext applicationContext, FormattingConversionService mvcConversionService, ResourceUrlProvider mvcResourceUrlProvider) {
+            WelcomePageHandlerMapping welcomePageHandlerMapping = new WelcomePageHandlerMapping(new TemplateAvailabilityProviders(applicationContext), applicationContext, this.getWelcomePage(), this.mvcProperties.getStaticPathPattern());
+            welcomePageHandlerMapping.setInterceptors(this.getInterceptors(mvcConversionService, mvcResourceUrlProvider));
+            welcomePageHandlerMapping.setCorsConfigurations(this.getCorsConfigurations());
+            return welcomePageHandlerMapping;
+        }
+
+        private Optional<Resource> getWelcomePage() {
+            String[] locations = WebMvcAutoConfiguration.getResourceLocations(this.resourceProperties.getStaticLocations());
+            return Arrays.stream(locations).map(this::getIndexHtml).filter(this::isReadable).findFirst();
+        }
+
+        private Resource getIndexHtml(String location) {
+            return this.resourceLoader.getResource(location + "index.html");
+        }
+```
+
+##6.2 Thymeleaf
+
+###6.2.1 Thymeleaf Dependency
+
+```xml
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>3.0.11.RELEASE</version>
+        </dependency>
+```
+###6.2.2 Thymeleaf Configuration
+```java
+@ConfigurationProperties(
+    prefix = "spring.thymeleaf"
+)
+public class ThymeleafProperties {
+    private static final Charset DEFAULT_ENCODING;
+    public static final String DEFAULT_PREFIX = "classpath:/templates/";
+    public static final String DEFAULT_SUFFIX = ".html";
+    private boolean checkTemplate = true;
+    private boolean checkTemplateLocation = true;
+    private String prefix = "classpath:/templates/";
+    private String suffix = ".html";
+    private String mode = "HTML";
+    private Charset encoding;
+    private boolean cache;
+```
