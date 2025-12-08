@@ -1,0 +1,22 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  name: myself-hosted
+steps:
+- script: my
+  displayName: 'Run a one-line script'
+
+- task: SonatypeEvaluate@2
+  inputs:
+    cliVersion: '2.8.1'
+    nexusIqService: 'localhost-60000'
+    applicationId: 'sandbox-application'
+    stage: 'Build'
+    scanPipelineWorkspace: true
+    enableDebugLogging: true
