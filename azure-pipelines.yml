@@ -19,3 +19,4 @@ steps:
     scanTargets: '**/pom.xml,**/*.jar, **/*.war, **/*.ear, **/*.zip, **/*.tar.gz'
     scanPipelineWorkspace: true
     enableDebugLogging: true
+    acceptIqServerSelfSignedCertificates: true
