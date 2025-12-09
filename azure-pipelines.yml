@@ -16,6 +16,6 @@ steps:
     nexusIqService: 'localhost-60000'
     applicationId: 'sandbox-application'
     stage: 'Build'
-    scanTargets: '**/*.pom,**/*.jar, **/*.war, **/*.ear, **/*.zip, **/*.tar.gz'
+    scanTargets: '**/pom.xml,**/*.jar, **/*.war, **/*.ear, **/*.zip, **/*.tar.gz'
     scanPipelineWorkspace: true
     enableDebugLogging: true
