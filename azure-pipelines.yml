@@ -9,11 +9,13 @@ trigger:
 pool:
   name: my-agent
 steps:
+
 - task: SonatypeEvaluate@2
   inputs:
     cliVersion: '2.8.1'
     nexusIqService: 'localhost-60000'
     applicationId: 'sandbox-application'
     stage: 'Build'
+    scanTargets: '**/*.pom,**/*.jar, **/*.war, **/*.ear, **/*.zip, **/*.tar.gz'
     scanPipelineWorkspace: true
     enableDebugLogging: true
