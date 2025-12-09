@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: myself-hosted
+  name: my-agent
 steps:
 - script: my
   displayName: 'Run a one-line script'
