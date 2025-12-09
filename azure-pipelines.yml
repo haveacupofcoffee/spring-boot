@@ -9,9 +9,6 @@ trigger:
 pool:
   name: my-agent
 steps:
-- script: my
-  displayName: 'Run a one-line script'
-
 - task: SonatypeEvaluate@2
   inputs:
     cliVersion: '2.8.1'
