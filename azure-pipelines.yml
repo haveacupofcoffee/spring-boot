@@ -12,7 +12,7 @@ steps:
 
 - task: SonatypeEvaluate@2
   inputs:
-    cliVersion: '2.8.1'
+    cliVersion: '2.8.2'
     nexusIqService: 'localhost-60000'
     applicationId: 'sandbox-application'
     stage: 'Build'
